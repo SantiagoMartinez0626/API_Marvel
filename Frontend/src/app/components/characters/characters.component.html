@@ -1,0 +1,5 @@
+<div *ngFor="let character of characters">
+    <h3>{{ character.name }}</h3>
+    <img [src]="character.thumbnail.path + '.' + character.thumbnail.extension" alt="{{ character.name }}">
+    <button (click)="addToFavorites(character)">Añadir a Favoritos</button>
+  </div>  

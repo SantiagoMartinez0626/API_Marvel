@@ -1,0 +1,5 @@
+<div *ngFor="let favorite of favorites">
+    <h3>{{ favorite.name }}</h3>
+    <img [src]="favorite.thumbnail.path + '.' + favorite.thumbnail.extension" alt="{{ favorite.name }}">
+    <button (click)="removeFavorite(favorite.characterId)">Eliminar de Favoritos</button>
+  </div>  
