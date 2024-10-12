@@ -1,5 +1,18 @@
-<div *ngFor="let favorite of favorites">
+<button routerLink="/home" class="button-primary">Volver al Home</button>
+
+<div *ngIf="isLoading" class="loading-message">Cargando personajes...</div>
+
+<div *ngIf="!isLoading" class="character-grid">
+  <div *ngFor="let favorite of favorites" class="character-card">
     <h3>{{ favorite.name }}</h3>
     <img [src]="favorite.thumbnail.path + '.' + favorite.thumbnail.extension" alt="{{ favorite.name }}">
-    <button (click)="removeFavorite(favorite.characterId)">Eliminar de Favoritos</button>
-  </div>  
+    <button (click)="removeFavorite(favorite.id)">Eliminar de Favoritos</button>
+  </div>
+</div>
+
+<div id="successModal" class="modal" *ngIf="successMessage">
+  <div class="modal-content">
+    <span class="close" (click)="closeModal()">&times;</span>
+    <p>{{ successMessage }}</p>
+  </div>
+</div>

@@ -18,7 +18,7 @@ export class FavoriteService {
     return this.http.get<any[]>(this.apiUrl);
   }
 
-  removeFavorite(characterId: string): Observable<void> {
+  removeFavorite(characterId: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${characterId}`);
   }
 }

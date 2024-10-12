@@ -7,21 +7,53 @@ import { FavoriteService } from 'src/app/services/favorite.service';
   styleUrls: ['./favorite.component.css']
 })
 export class FavoriteComponent implements OnInit {
-
   favorites: any[] = [];
+  isLoading: boolean = true;
+  successMessage: string | null = null;
 
   constructor(private favoriteService: FavoriteService) {}
 
   ngOnInit(): void {
-    this.favoriteService.getFavorites().subscribe(data => {
-      this.favorites = data;
-    });
+    this.loadFavorites();
   }
 
-  removeFavorite(characterId: string): void {
-    this.favoriteService.removeFavorite(characterId).subscribe(() => {
-      this.favorites = this.favorites.filter(fav => fav.characterId !== characterId);
-    });
+  removeFavorite(characterId: number): void {
+    console.log('Intentando eliminar favorito con ID:', characterId);
+    this.favoriteService.removeFavorite(characterId).subscribe(
+      () => {
+        this.loadFavorites();
+        this.showSuccessModal('Eliminado de favoritos correctamente');
+      },
+      (error) => {
+        console.error('Error al eliminar el favorito', error);
+        if (error.status === 404) {
+          this.showSuccessModal('Personaje no encontrado en favoritos');
+        } else {
+          this.showSuccessModal('Error al eliminar el favorito');
+        }
+      }
+    );
   }
 
+  loadFavorites(): void {
+    this.isLoading = true;
+    this.favoriteService.getFavorites().subscribe(
+      data => {
+        this.favorites = data;
+        this.isLoading = false;
+      },
+      error => {
+        console.error(error);
+        this.isLoading = false;
+      }
+    );
+  }
+
+  showSuccessModal(message: string): void {
+    this.successMessage = message;
+  }
+
+  closeModal(): void {
+    this.successMessage = null;
+  }
 }
