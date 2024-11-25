@@ -5,6 +5,10 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
+    environment:
+      - MONGODB_URI=mongodb://mongodb:27017/marvelapp
+    depends_on:
+      - mongodb
 
   frontend:
     build:
@@ -15,3 +19,13 @@ services:
     volumes:
       - ./Frontend:/app
     command: bash -c "npm install && ng serve --host 0.0.0.0"
+
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+
+volumes:
+  mongodb_data:

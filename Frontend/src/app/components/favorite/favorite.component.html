@@ -1,18 +1,44 @@
-<button routerLink="/home" class="button-primary">Volver al Home</button>
+<div class="page-container">
+  <div class="header-section">
+    <h1>Mis Favoritos</h1>
+    <button routerLink="/home" class="back-button">
+      <i class="fas fa-home"></i> Volver al Inicio
+    </button>
+  </div>
 
-<div *ngIf="isLoading" class="loading-message">Cargando personajes...</div>
+  <div *ngIf="isLoading" class="loading-container">
+    <i class="fas fa-spinner fa-spin"></i>
+    <p>Cargando favoritos...</p>
+  </div>
 
-<div *ngIf="!isLoading" class="character-grid">
-  <div *ngFor="let favorite of favorites" class="character-card">
-    <h3>{{ favorite.name }}</h3>
-    <img [src]="favorite.thumbnail.path + '.' + favorite.thumbnail.extension" alt="{{ favorite.name }}">
-    <button (click)="removeFavorite(favorite.id)">Eliminar de Favoritos</button>
+  <div *ngIf="!isLoading && favorites.length === 0" class="empty-state">
+    <i class="fas fa-star empty-icon"></i>
+    <h2>No tienes personajes favoritos</h2>
+    <p>Explora los personajes y añade algunos a tus favoritos</p>
+    <button routerLink="/personajes" class="action-button">
+      <i class="fas fa-search"></i> Explorar Personajes
+    </button>
+  </div>
+
+  <div *ngIf="!isLoading && favorites.length > 0" class="character-grid">
+    <div *ngFor="let favorite of favorites" class="character-card">
+      <div class="card-image">
+        <img [src]="favorite.thumbnail.path + '.' + favorite.thumbnail.extension" 
+             [alt]="favorite.name">
+      </div>
+      <div class="card-content">
+        <h3>{{ favorite.name }}</h3>
+        <button (click)="removeFavorite(favorite.id)" class="action-button remove">
+          <i class="fas fa-trash"></i> Eliminar de Favoritos
+        </button>
+      </div>
+    </div>
   </div>
 </div>
 
-<div id="successModal" class="modal" *ngIf="successMessage">
+<div class="modal" *ngIf="successMessage">
   <div class="modal-content">
-    <span class="close" (click)="closeModal()">&times;</span>
+    <i class="fas fa-times close-icon" (click)="closeModal()"></i>
     <p>{{ successMessage }}</p>
   </div>
 </div>

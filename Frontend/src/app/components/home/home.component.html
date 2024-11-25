@@ -1,6 +1,47 @@
-<div class="home">
-  <h1>Bienvenido a la aplicación de Marvel</h1>
-  <p>Explora los personajes y favoritos de Marvel</p>
-  <a routerLink="/personajes" class="link">Ir a Personajes</a>
-  <a routerLink="/favoritos" class="link">Ir a Favoritos</a>
+<div class="home-container">
+  <nav class="auth-nav">
+    <div class="auth-buttons" *ngIf="!isLoggedIn">
+      <button routerLink="/login" class="auth-button">
+        <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
+      </button>
+      <button routerLink="/register" class="auth-button">
+        <i class="fas fa-user-plus"></i> Registrarse
+      </button>
+    </div>
+    <div class="auth-buttons" *ngIf="isLoggedIn">
+      <span class="welcome-text">¡Bienvenido!</span>
+      <button (click)="logout()" class="auth-button">
+        <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+      </button>
+    </div>
+  </nav>
+
+  <div class="hero-section">
+    <div class="logo-container">
+      <img src="assets/marvel-logo.png" alt="Marvel Logo" class="marvel-logo">
+    </div>
+    <h1>Bienvenido al Universo Marvel</h1>
+    <p class="hero-text">Explora el increíble mundo de los superhéroes y descubre todos tus personajes favoritos</p>
+  </div>
+
+  <div class="features-container" *ngIf="isLoggedIn">
+    <div class="feature-card" routerLink="/personajes">
+      <i class="fas fa-mask"></i>
+      <h2>Personajes</h2>
+      <p>Descubre todos los héroes y villanos del universo Marvel</p>
+    </div>
+
+    <div class="feature-card" routerLink="/favoritos">
+      <i class="fas fa-star"></i>
+      <h2>Favoritos</h2>
+      <p>Accede a tu colección personal de personajes favoritos</p>
+    </div>
+  </div>
+
+  <div class="features-container" *ngIf="!isLoggedIn">
+    <div class="login-prompt">
+      <h2>¡Únete a la aventura!</h2>
+      <p>Inicia sesión o regístrate para explorar personajes y crear tu colección de favoritos</p>
+    </div>
+  </div>
 </div>

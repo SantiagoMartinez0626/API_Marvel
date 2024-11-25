@@ -25,12 +25,18 @@ export class CharactersComponent implements OnInit {
     this.isLoading = true;
     this.marvelService.getCharacters().subscribe(
       data => {
-        this.characters = data.data.results;
+        console.log('Datos recibidos:', data);
+        if (data && data.data && data.data.results) {
+          this.characters = data.data.results;
+        } else {
+          console.error('Formato de datos inesperado:', data);
+        }
         this.isLoading = false;
       },
       error => {
-        console.error(error);
+        console.error('Error al cargar personajes:', error);
         this.isLoading = false;
+        // Aquí podrías mostrar un mensaje de error al usuario
       }
     );
   }

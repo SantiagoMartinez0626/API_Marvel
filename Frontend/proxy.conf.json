@@ -1,0 +1,10 @@
+{
+  "/api": {
+    "target": "https://gateway.marvel.com/v1/public",
+    "secure": true,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/api": ""
+    }
+  }
+} 

@@ -1,18 +1,39 @@
-<button routerLink="/home" class="button-primary">Volver al Home</button>
+<div class="page-container">
+  <div class="header-section">
+    <h1>Personajes Marvel</h1>
+    <button routerLink="/home" class="back-button">
+      <i class="fas fa-home"></i> Volver al Inicio
+    </button>
+  </div>
 
-<div *ngIf="isLoading" class="loading-message">Cargando personajes...</div>
+  <div *ngIf="isLoading" class="loading-container">
+    <i class="fas fa-spinner fa-spin"></i>
+    <p>Cargando personajes...</p>
+  </div>
 
-<div *ngIf="!isLoading" class="character-grid">
-  <div *ngFor="let character of characters" class="character-card">
-    <h3>{{ character.name }}</h3>
-    <img [src]="character.thumbnail.path + '.' + character.thumbnail.extension" alt="{{ character.name }}">
-    <button (click)="addToFavorites(character)">Añadir a Favoritos</button>
+  <div *ngIf="!isLoading && characters.length === 0" class="error-container">
+    <p>No se pudieron cargar los personajes. Por favor, intente más tarde.</p>
+  </div>
+
+  <div *ngIf="!isLoading" class="character-grid">
+    <div *ngFor="let character of characters" class="character-card">
+      <div class="card-image">
+        <img [src]="character.thumbnail.path + '.' + character.thumbnail.extension" 
+             [alt]="character.name">
+      </div>
+      <div class="card-content">
+        <h3>{{ character.name }}</h3>
+        <button (click)="addToFavorites(character)" class="action-button">
+          <i class="fas fa-star"></i> Añadir a Favoritos
+        </button>
+      </div>
+    </div>
   </div>
 </div>
 
-<div id="successModal" class="modal" *ngIf="successMessage">
+<div class="modal" *ngIf="successMessage">
   <div class="modal-content">
-    <span class="close" (click)="closeModal()">&times;</span>
+    <i class="fas fa-times close-icon" (click)="closeModal()"></i>
     <p>{{ successMessage }}</p>
   </div>
 </div>
