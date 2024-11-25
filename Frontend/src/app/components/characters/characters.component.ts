@@ -62,9 +62,8 @@ export class CharactersComponent implements OnInit {
 
   showSuccessModal(message: string): void {
     this.successMessage = message;
-  }
-
-  closeModal(): void {
-    this.successMessage = null;
+    setTimeout(() => {
+      this.successMessage = null;
+    }, 3000);
   }
 }

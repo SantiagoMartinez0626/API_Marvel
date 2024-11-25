@@ -48,7 +48,9 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem('token');
     this.tokenSubject.next(null);
-    this.router.navigate(['/login']);
+    this.router.navigate(['/home']).then(() => {
+        window.location.reload();
+    });
   }
 
   getToken(): string | null {
@@ -66,5 +68,21 @@ export class AuthService {
     } catch {
       return false;
     }
+  }
+
+  showSuccessMessage(message: string): void {
+    const successDiv = document.createElement('div');
+    successDiv.className = 'success-modal';
+    successDiv.innerHTML = `
+        <div class="success-content">
+            <i class="fas fa-check-circle"></i>
+            <p>${message}</p>
+        </div>
+    `;
+    document.body.appendChild(successDiv);
+
+    setTimeout(() => {
+        successDiv.remove();
+    }, 2000);
   }
 }

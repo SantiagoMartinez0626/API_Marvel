@@ -11,7 +11,6 @@ export class RegisterComponent {
   email: string = '';
   password: string = '';
   errorMessage: string = '';
-  successMessage: string = '';
 
   constructor(
     private authService: AuthService,
@@ -27,10 +26,7 @@ export class RegisterComponent {
     this.authService.register(this.email, this.password).subscribe(
       (response) => {
         console.log('Registro exitoso:', response);
-        this.successMessage = '¡Registro exitoso! Redirigiendo al login...';
-        setTimeout(() => {
-          this.router.navigate(['/login']);
-        }, 3000);
+        this.router.navigate(['/login']);
       },
       (error) => {
         console.error('Error en registro:', error);

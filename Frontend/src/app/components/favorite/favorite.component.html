@@ -1,9 +1,24 @@
 <div class="page-container">
   <div class="header-section">
     <h1>Mis Favoritos</h1>
-    <button routerLink="/home" class="back-button">
-      <i class="fas fa-home"></i> Volver al Inicio
-    </button>
+    <div class="header-buttons">
+      <div class="dropdown">
+        <button class="export-button">
+          <i class="fas fa-download"></i> Exportar
+        </button>
+        <div class="dropdown-content">
+          <button (click)="exportToPDF()">
+            <i class="fas fa-file-pdf"></i> PDF
+          </button>
+          <button (click)="exportToExcel()">
+            <i class="fas fa-file-excel"></i> Excel
+          </button>
+        </div>
+      </div>
+      <button routerLink="/home" class="back-button">
+        <i class="fas fa-home"></i> Volver al Inicio
+      </button>
+    </div>
   </div>
 
   <div *ngIf="isLoading" class="loading-container">
@@ -38,7 +53,6 @@
 
 <div class="modal" *ngIf="successMessage">
   <div class="modal-content">
-    <i class="fas fa-times close-icon" (click)="closeModal()"></i>
     <p>{{ successMessage }}</p>
   </div>
 </div>

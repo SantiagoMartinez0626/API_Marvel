@@ -9,14 +9,22 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Conexión MongoDB
+// Agregar más logs
+console.log('Iniciando conexión a MongoDB...');
+
 mongoose.connect('mongodb://mongodb:27017/marvelapp', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(() => {
     console.log('Conexión exitosa a MongoDB');
 }).catch(err => {
-    console.error('Error de conexión a MongoDB:', err);
+    console.error('Error detallado de conexión a MongoDB:', err);
+});
+
+// Agregar log para cada petición
+app.use((req, res, next) => {
+    console.log(`${req.method} ${req.url}`);
+    next();
 });
 
 // Modelos

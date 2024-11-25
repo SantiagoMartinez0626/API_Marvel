@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import * as md5 from 'md5';
 
@@ -17,20 +17,16 @@ export class MarvelService {
     const timestamp = new Date().getTime().toString();
     const hash = this.generateHash(timestamp);
 
-    console.log('Enviando petición con:', {
-      timestamp,
-      hash,
-      apikey: this.publicKey
+    const params = new HttpParams()
+      .set('ts', timestamp)
+      .set('apikey', this.publicKey)
+      .set('hash', hash)
+      .set('limit', '100')
+      .set('offset', '0');
+
+    return this.http.get<any>(`${this.apiUrl}/characters`, {
+      params: params
     });
-
-    const params = {
-      ts: timestamp,
-      apikey: this.publicKey,
-      hash: hash,
-      limit: '20'
-    };
-
-    return this.http.get(`${this.apiUrl}/characters`, { params });
   }
 
   private generateHash(timestamp: string): string {
