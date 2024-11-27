@@ -11,6 +11,9 @@ export class CharactersComponent implements OnInit {
   characters: any[] = [];
   isLoading: boolean = true;
   successMessage: string | null = null;
+  currentPage: number = 1;
+  totalPages: number = 0;
+  itemsPerPage: number = 40;
 
   constructor(
     private marvelService: MarvelService,
@@ -23,22 +26,38 @@ export class CharactersComponent implements OnInit {
 
   loadCharacters(): void {
     this.isLoading = true;
-    this.marvelService.getCharacters().subscribe(
+    this.marvelService.getCharacters(this.currentPage, this.itemsPerPage).subscribe(
       data => {
-        console.log('Datos recibidos:', data);
-        if (data && data.data && data.data.results) {
+        if (data && data.data) {
           this.characters = data.data.results;
-        } else {
-          console.error('Formato de datos inesperado:', data);
+          this.totalPages = Math.ceil(data.data.total / this.itemsPerPage);
         }
         this.isLoading = false;
       },
       error => {
         console.error('Error al cargar personajes:', error);
         this.isLoading = false;
-        // Aquí podrías mostrar un mensaje de error al usuario
       }
     );
+  }
+
+  changePage(page: number): void {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+      this.loadCharacters();
+      window.scrollTo(0, 0);
+    }
+  }
+
+  getPages(): number[] {
+    const pages = [];
+    const start = Math.max(1, this.currentPage - 2);
+    const end = Math.min(this.totalPages, this.currentPage + 2);
+    
+    for (let i = start; i <= end; i++) {
+      pages.push(i);
+    }
+    return pages;
   }
 
   addToFavorites(character: any): void {

@@ -13,16 +13,17 @@ export class MarvelService {
 
   constructor(private http: HttpClient) {}
 
-  getCharacters(): Observable<any> {
+  getCharacters(page: number = 1, limit: number = 40): Observable<any> {
     const timestamp = new Date().getTime().toString();
     const hash = this.generateHash(timestamp);
+    const offset = (page - 1) * limit;
 
     const params = new HttpParams()
       .set('ts', timestamp)
       .set('apikey', this.publicKey)
       .set('hash', hash)
-      .set('limit', '100')
-      .set('offset', '0');
+      .set('limit', limit.toString())
+      .set('offset', offset.toString());
 
     return this.http.get<any>(`${this.apiUrl}/characters`, {
       params: params
@@ -30,8 +31,6 @@ export class MarvelService {
   }
 
   private generateHash(timestamp: string): string {
-    const stringToHash = timestamp + this.privateKey + this.publicKey;
-    console.log('String para hash:', stringToHash);
-    return md5(stringToHash);
+    return md5(timestamp + this.privateKey + this.publicKey);
   }
 }
