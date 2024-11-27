@@ -14,6 +14,7 @@ export class CharactersComponent implements OnInit {
   currentPage: number = 1;
   totalPages: number = 0;
   itemsPerPage: number = 40;
+  selectedCharacter: any = null;
 
   constructor(
     private marvelService: MarvelService,
@@ -84,5 +85,19 @@ export class CharactersComponent implements OnInit {
     setTimeout(() => {
       this.successMessage = null;
     }, 3000);
+  }
+
+  showCharacterDetails(character: any): void {
+    this.selectedCharacter = character;
+  }
+
+  closeModal(): void {
+    this.selectedCharacter = null;
+  }
+
+  getSpanishDescription(description: string): string {
+    // Aquí puedes implementar la lógica de traducción
+    // Por ahora retornamos un mensaje genérico en español
+    return description || 'Este personaje no tiene una descripción disponible.';
   }
 }

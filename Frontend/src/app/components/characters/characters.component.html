@@ -17,7 +17,7 @@
 
   <div *ngIf="!isLoading" class="character-grid">
     <div *ngFor="let character of characters" class="character-card">
-      <div class="card-image">
+      <div class="card-image" (click)="showCharacterDetails(character)">
         <img [src]="character.thumbnail.path + '.' + character.thumbnail.extension" 
              [alt]="character.name">
       </div>
@@ -58,6 +58,27 @@
 <div class="modal" *ngIf="successMessage">
   <div class="modal-content">
     <p>{{ successMessage }}</p>
+  </div>
+</div>
+
+<!-- Modal de detalles -->
+<div class="character-modal" *ngIf="selectedCharacter">
+  <div class="modal-overlay" (click)="closeModal()"></div>
+  <div class="modal-content">
+    <button class="close-button" (click)="closeModal()">
+      <i class="fas fa-times"></i>
+    </button>
+    
+    <div class="modal-header">
+      <img [src]="selectedCharacter.thumbnail.path + '.' + selectedCharacter.thumbnail.extension" 
+           [alt]="selectedCharacter.name">
+      <h2>{{selectedCharacter.name}}</h2>
+    </div>
+    
+    <div class="modal-body">
+      <p *ngIf="selectedCharacter.description">{{getSpanishDescription(selectedCharacter.description)}}</p>
+      <p *ngIf="!selectedCharacter.description">No hay descripción disponible para este personaje</p>
+    </div>
   </div>
 </div>
  

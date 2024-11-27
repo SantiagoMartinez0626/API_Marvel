@@ -37,7 +37,7 @@
 
   <div *ngIf="!isLoading && favorites.length > 0" class="character-grid">
     <div *ngFor="let favorite of favorites" class="character-card">
-      <div class="card-image">
+      <div class="card-image" (click)="showCharacterDetails(favorite)">
         <img [src]="favorite.thumbnail.path + '.' + favorite.thumbnail.extension" 
              [alt]="favorite.name">
       </div>
@@ -54,5 +54,25 @@
 <div class="modal" *ngIf="successMessage">
   <div class="modal-content">
     <p>{{ successMessage }}</p>
+  </div>
+</div>
+
+<div class="character-modal" *ngIf="selectedCharacter">
+  <div class="modal-overlay" (click)="closeModal()"></div>
+  <div class="modal-content">
+    <button class="close-button" (click)="closeModal()">
+      <i class="fas fa-times"></i>
+    </button>
+    
+    <div class="modal-header">
+      <img [src]="selectedCharacter.thumbnail.path + '.' + selectedCharacter.thumbnail.extension" 
+           [alt]="selectedCharacter.name">
+      <h2>{{selectedCharacter.name}}</h2>
+    </div>
+    
+    <div class="modal-body">
+      <p *ngIf="selectedCharacter.description">{{getSpanishDescription(selectedCharacter.description)}}</p>
+      <p *ngIf="!selectedCharacter.description">No hay descripción disponible para este personaje</p>
+    </div>
   </div>
 </div>

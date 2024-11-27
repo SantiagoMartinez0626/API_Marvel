@@ -12,6 +12,7 @@ export class FavoriteComponent implements OnInit {
   favorites: any[] = [];
   isLoading: boolean = true;
   successMessage: string | null = null;
+  selectedCharacter: any = null;
 
   constructor(private favoriteService: FavoriteService) {}
 
@@ -107,5 +108,35 @@ export class FavoriteComponent implements OnInit {
     writeFile(wb, 'mis-favoritos-marvel.xlsx');
     
     this.showSuccessModal('Excel exportado correctamente');
+  }
+
+  showCharacterDetails(character: any): void {
+    this.selectedCharacter = character;
+    console.log('Descripción del personaje:', character.description);
+  }
+
+  closeModal(): void {
+    this.selectedCharacter = null;
+  }
+
+  getSpanishDescription(description: string): string {
+    // Aquí puedes implementar una lógica de traducción más elaborada
+    const translations: { [key: string]: string } = {
+      "Rick Jones has been Hulk's best bud": "Rick Jones ha sido el mejor amigo de Hulk",
+      "transformed": "transformado",
+      "energy explosion": "explosión de energía",
+      "friend": "amigo",
+      "teammate": "compañero de equipo"
+    };
+
+    if (!description) return 'No hay descripción disponible para este personaje';
+
+    let spanishText = description;
+    Object.keys(translations).forEach(englishWord => {
+      const regex = new RegExp(englishWord, 'gi');
+      spanishText = spanishText.replace(regex, translations[englishWord]);
+    });
+
+    return spanishText;
   }
 }
